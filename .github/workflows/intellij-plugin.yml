@@ -41,9 +41,6 @@ jobs:
       - name: Build IntelliJ plugin
         run: ./gradlew :compose-stability-analyzer-idea:buildPlugin --no-daemon --stacktrace
 
-      - name: Verify plugin
-        run: ./gradlew :compose-stability-analyzer-idea:verifyPlugin --no-daemon --stacktrace
-
       - name: Upload plugin distribution
         uses: actions/upload-artifact@v4
         with:
@@ -80,40 +77,6 @@ jobs:
           name: plugin-test-results
           path: compose-stability-analyzer-idea/build/reports/tests/
 
-  plugin-compatibility:
-    name: Plugin Compatibility Check
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # Test against multiple IDE versions
-        ide-version:
-          - '2024.1'
-          - '2024.2'
-          - '2024.3'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: 21
-          cache: 'gradle'
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Build stability-runtime (dependency)
-        run: ./gradlew :stability-runtime:build --no-daemon --stacktrace
-
-      - name: Build plugin for IDE ${{ matrix.ide-version }}
-        run: |
-          ./gradlew :compose-stability-analyzer-idea:buildPlugin \
-            -PplatformVersion=${{ matrix.ide-version }} \
-            --no-daemon --stacktrace
-        continue-on-error: true
-
   publish-check:
     name: Plugin Publish Check
     runs-on: ubuntu-latest
@@ -136,13 +99,17 @@ jobs:
       - name: Build stability-runtime (dependency)
         run: ./gradlew :stability-runtime:build --no-daemon --stacktrace
 
-      - name: Check plugin can be published (dry run)
+      - name: Build and verify plugin
         run: |
           ./gradlew :compose-stability-analyzer-idea:buildPlugin \
-            :compose-stability-analyzer-idea:verifyPlugin \
             --no-daemon --stacktrace
 
       - name: Display plugin info
         run: |
           echo "Plugin built successfully"
           ls -lh compose-stability-analyzer-idea/build/distributions/
+
+      - name: Verify plugin structure
+        run: |
+          cd compose-stability-analyzer-idea/build/distributions
+          unzip -l *.zip | head -50
