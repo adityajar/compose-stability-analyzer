@@ -106,7 +106,7 @@ You can change the configuration on the way below:
 ![preview](art/preview4.png)
 ![preview](art/preview5.png)
 
-## Stability Analyzer for Tracking Runtime Recomposition
+## Gradle Plugin for Tracking Runtime Recomposition and Stability Validation
 
 You can track the recomposition for specific composable functions with the `@TraceRecomposition` annotation at runtime (KMP supports). You don't need to write any logging code yourself, just add the annotation, run your app, and watch detailed recomposition logs appear in Logcat. This compiler plugin supports Kotlin Multiplatform.
 
