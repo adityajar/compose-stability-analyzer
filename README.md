@@ -49,7 +49,7 @@ You can download the Compose Stability Analyzer Plugin with the steps below:
 
 1. Download the idea plugin file below:
 
-[compose-stability-analyzer-idea-0.4.1.zip](https://github.com/user-attachments/files/23290392/compose-stability-analyzer-idea-0.4.1.zip)
+[compose-stability-analyzer-idea-0.4.2.zip](https://github.com/user-attachments/files/23327232/compose-stability-analyzer-idea-0.4.2.zip)
 
 2. Open **Android Studio** > **Settings** (or **Preferences**) > **Plugins** > **⚙️ icon** > **Install Plugin from Disk...** Select the `.zip` file > **Restart Android Studio**.
 
@@ -127,7 +127,7 @@ This is incredibly useful for:
 Add the dependency below to your `libs.versions.toml` file:
 
 ```toml
-stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version = "0.4.1" }
+stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version = "0.4.2" }
 ```
 
 Next, apply the plugin on your root's `build.gradle.kts` file like below:
