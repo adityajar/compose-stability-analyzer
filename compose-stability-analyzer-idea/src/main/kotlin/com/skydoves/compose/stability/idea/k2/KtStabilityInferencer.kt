@@ -612,14 +612,10 @@ internal class KtStabilityInferencer {
   context(KaSession)
   private fun KaClassSymbol.getStabilityInferredParameters(): Int? {
     val stabilityInferredFqName = "androidx.compose.runtime.internal.StabilityInferred"
-
-    // Find @StabilityInferred annotation
     val annotation = annotations.firstOrNull { annotation ->
       annotation.classId?.asSingleFqName()?.asString() == stabilityInferredFqName
     } ?: return null
 
-    // Try to read the 'parameters' field
-    // The annotation has a single field: parameters: Int
     val parametersArgument = annotation.arguments.firstOrNull { arg ->
       arg.name.asString() == "parameters"
     }
@@ -630,17 +626,14 @@ internal class KtStabilityInferencer {
         is org.jetbrains.kotlin.analysis.api.annotations.KaAnnotationValue.ConstantValue -> {
           // Get the constant value as Int
           (expression.value.value as? Int) ?: run {
-            // If we can't extract the value, be conservative and return null
             null
           }
         }
         else -> {
-          // Unknown expression type, be conservative
           null
         }
       }
     } catch (e: Exception) {
-      // If reading fails, be conservative and return null
       null
     }
   }
