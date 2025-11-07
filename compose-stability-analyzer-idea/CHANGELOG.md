@@ -2,6 +2,14 @@
 
 All notable changes to the IntelliJ IDEA plugin will be documented in this file.
 
+## [Unreleased]
+
+### Fixed
+- Fixed typealias detection for Composable function types (Issue #16)
+- Typealiases like `typealias SettingsButtons = @Composable (PlayerUiState) -> Unit` now correctly expand to their underlying function types before stability analysis
+
+---
+
 ## [0.4.2] - 2025-11-03
 
 ### Fixed

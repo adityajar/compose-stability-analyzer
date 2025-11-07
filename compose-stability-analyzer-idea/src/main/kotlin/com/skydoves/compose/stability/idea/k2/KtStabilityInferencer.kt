@@ -32,6 +32,7 @@ import org.jetbrains.kotlin.analysis.api.types.KaTypeNullability
  * Analyzes Kotlin types using K2 semantic analysis for accurate stability determination.
  *
  * **Important: Analysis follows the same order as StabilityAnalyzer for consistency:**
+ * 0. Typealiases - expand to actual type first
  * 1. Nullable types (MUST be first)
  * 2. Type parameters (T, E, K, V) - RUNTIME/Parameter
  * 3. Function types (lambdas, suspend, @Composable) - STABLE
@@ -98,12 +99,16 @@ internal class KtStabilityInferencer {
    */
   context(KaSession)
   private fun ktStabilityOfInternal(type: KaType, originalTypeString: String): KtStability {
+    // 0. Expand typealiases first - resolve typealias to actual type
+    // Use fullyExpandedType to get the actual underlying type
+    val expandedType = type.fullyExpandedType
+
     // 1. Nullable types - MUST be checked first to strip nullability
     // Use KaTypeNullability enum for compatibility with Android Studio AI-243
-    val nonNullableType = if (type.isMarkedNullable) {
-      type.withNullability(KaTypeNullability.NON_NULLABLE)
+    val nonNullableType = if (expandedType.isMarkedNullable) {
+      expandedType.withNullability(KaTypeNullability.NON_NULLABLE)
     } else {
-      type
+      expandedType
     }
 
     // 2. Check if it's a type parameter (e.g., T, E, K, V in generics)
