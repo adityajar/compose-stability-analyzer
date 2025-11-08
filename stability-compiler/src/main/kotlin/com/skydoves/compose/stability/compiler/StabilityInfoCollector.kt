@@ -15,6 +15,9 @@
  */
 package com.skydoves.compose.stability.compiler
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.io.File
 
 /**
@@ -39,6 +42,7 @@ public class StabilityInfoCollector(
    * Does nothing if no composables were collected.
    * Filters out anonymous composables (compiler-generated lambda functions).
    */
+  @OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
   public fun export() {
     // Filter out anonymous composables (compiler-generated functions)
     // Check the qualified name to catch cases like "Foo.<anonymous>.Bar"
@@ -51,65 +55,31 @@ public class StabilityInfoCollector(
 
     outputFile.parentFile?.mkdirs()
 
-    val json = buildString {
-      appendLine("{")
-      appendLine("  \"composables\": [")
+    val report = StabilityReport(
+      composables = filteredComposables.sortedBy { it.qualifiedName },
+    )
 
-      filteredComposables.sortedBy { it.qualifiedName }.forEachIndexed { index, info ->
-        appendLine("    {")
-        appendLine("      \"qualifiedName\": \"${info.qualifiedName.escapeJson()}\",")
-        appendLine("      \"simpleName\": \"${info.simpleName.escapeJson()}\",")
-        appendLine("      \"visibility\": \"${info.visibility}\",")
-        appendLine("      \"skippable\": ${info.skippable},")
-        appendLine("      \"restartable\": ${info.restartable},")
-        appendLine("      \"returnType\": \"${info.returnType.escapeJson()}\",")
-        appendLine("      \"parameters\": [")
-
-        info.parameters.forEachIndexed { paramIndex, param ->
-          appendLine("        {")
-          appendLine("          \"name\": \"${param.name.escapeJson()}\",")
-          appendLine("          \"type\": \"${param.type.escapeJson()}\",")
-          appendLine("          \"stability\": \"${param.stability}\",")
-          if (param.reason != null) {
-            appendLine("          \"reason\": \"${param.reason.escapeJson()}\"")
-          } else {
-            appendLine("          \"reason\": null")
-          }
-          if (paramIndex < info.parameters.size - 1) {
-            appendLine("        },")
-          } else {
-            appendLine("        }")
-          }
-        }
-
-        appendLine("      ]")
-        if (index < filteredComposables.size - 1) {
-          appendLine("    },")
-        } else {
-          appendLine("    }")
-        }
-      }
-
-      appendLine("  ]")
-      appendLine("}")
+    val json = Json {
+      prettyPrint = true
+      prettyPrintIndent = "  "
     }
 
-    outputFile.writeText(json)
-  }
-
-  private fun String.escapeJson(): String {
-    return this
-      .replace("\\", "\\\\")
-      .replace("\"", "\\\"")
-      .replace("\n", "\\n")
-      .replace("\r", "\\r")
-      .replace("\t", "\\t")
+    outputFile.writeText(json.encodeToString(report))
   }
 }
 
 /**
+ * Root stability report containing all composables.
+ */
+@Serializable
+public data class StabilityReport(
+  val composables: List<ComposableStabilityInfo>,
+)
+
+/**
  * Stability information for a single composable function.
  */
+@Serializable
 public data class ComposableStabilityInfo(
   val qualifiedName: String,
   val simpleName: String,
@@ -123,6 +93,7 @@ public data class ComposableStabilityInfo(
 /**
  * Stability information for a single parameter.
  */
+@Serializable
 public data class ParameterStabilityInfo(
   val name: String,
   val type: String,

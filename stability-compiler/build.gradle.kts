@@ -15,6 +15,7 @@
  */
 plugins {
   kotlin("jvm")
+  alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.nexus.plugin)
 }
 
@@ -30,6 +31,7 @@ dependencies {
   compileOnly(libs.kotlin.stdlib)
   compileOnly(libs.kotlin.compiler.embeddable)
   implementation(project(":stability-runtime"))
+  implementation(libs.kotlinx.serialization.json)
 
   testImplementation(kotlin("test"))
   testImplementation(kotlin("test-junit"))
