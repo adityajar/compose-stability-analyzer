@@ -60,6 +60,14 @@ public sealed class StabilityNodeData {
   public data class EmptyMessage(
     val message: String,
   ) : StabilityNodeData()
+
+  /**
+   * Clickable GitHub link node
+   */
+  public data class GitHubLink(
+    val text: String,
+    val url: String,
+  ) : StabilityNodeData()
 }
 
 /**

@@ -16,6 +16,7 @@
 package com.skydoves.compose.stability.idea.toolwindow
 
 import com.intellij.icons.AllIcons
+import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.openapi.actionSystem.AnAction
@@ -84,14 +85,25 @@ public class StabilityToolWindow(private val project: Project) {
       updateDetailsPanel(node)
     }
 
-    // Add double-click listener for navigation
+    // Add double-click listener for navigation and single-click for GitHub links
     tree.addMouseListener(object : java.awt.event.MouseAdapter() {
       override fun mouseClicked(e: java.awt.event.MouseEvent) {
+        val node = tree.lastSelectedPathComponent as? DefaultMutableTreeNode
+
+        // Handle single click on GitHub links
+        if (e.clickCount == 1) {
+          val gitHubLink = node?.userObject as? StabilityNodeData.GitHubLink
+          if (gitHubLink != null) {
+            BrowserUtil.browse(gitHubLink.url)
+            return
+          }
+        }
+
+        // Handle double click on composables for navigation
         if (e.clickCount == 2) {
-          val node = tree.lastSelectedPathComponent as? DefaultMutableTreeNode
-          val data = node?.userObject as? StabilityNodeData.Composable
-          if (data != null) {
-            navigateToSource(data.info)
+          val composable = node?.userObject as? StabilityNodeData.Composable
+          if (composable != null) {
+            navigateToSource(composable.info)
           }
         }
       }
@@ -196,16 +208,33 @@ public class StabilityToolWindow(private val project: Project) {
 
     // Show helpful message if no composables found
     if (results.composables.isEmpty()) {
-      val messageNode = DefaultMutableTreeNode(
-        StabilityNodeData.EmptyMessage(
-          "To view compose stability information:\n" +
-            "1. Apply the Compose Stability Analyzer Gradle plugin to your module\n" +
-            "2. Build your project to generate stability reports\n" +
-            "3. Click the refresh button above",
+      val headerNode = DefaultMutableTreeNode(
+        StabilityNodeData.EmptyMessage("To view compose stability information:"),
+      )
+      rootNode.add(headerNode)
+
+      // Add each step as a child node
+      val steps = listOf(
+        "1. Apply the Compose Stability Analyzer Gradle plugin to your module",
+        "2. Build your project to generate stability reports",
+        "3. Click the refresh button above",
+      )
+
+      steps.forEach { step ->
+        headerNode.add(DefaultMutableTreeNode(StabilityNodeData.EmptyMessage(step)))
+      }
+
+      // Add GitHub link
+      val githubNode = DefaultMutableTreeNode(
+        StabilityNodeData.GitHubLink(
+          "For more information, check out GitHub",
+          "https://github.com/skydoves/compose-stability-analyzer",
         ),
       )
-      rootNode.add(messageNode)
+      headerNode.add(githubNode)
+
       treeModel.reload()
+      tree.expandRow(0) // Expand the header to show all steps
       return
     }
 
@@ -551,6 +580,17 @@ public class StabilityToolWindow(private val project: Project) {
         is StabilityNodeData.EmptyMessage -> {
           icon = AllIcons.General.Information
           append(data.message, SimpleTextAttributes.GRAYED_ATTRIBUTES)
+        }
+
+        is StabilityNodeData.GitHubLink -> {
+          icon = AllIcons.Ide.External_link_arrow
+          append(
+            data.text,
+            SimpleTextAttributes(
+              SimpleTextAttributes.STYLE_PLAIN,
+              JBUI.CurrentTheme.Link.Foreground.ENABLED,
+            ),
+          )
         }
 
         else -> {
