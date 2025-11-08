@@ -5,6 +5,7 @@ kotlin = "2.2.21"
 dokka = "2.1.0"
 jvmTarget = "17"
 kotlinxCollectionsImmutable = "0.4.0"
+kotlinxSerialization = "1.8.0"
 kotlinBinaryCompatibility = "0.18.1"
 lintApi = "31.13.0"
 nexusPlugin = "0.34.0"
@@ -12,7 +13,7 @@ androidGradlePlugin = "8.13.0"
 androidxActivity = "1.11.0"
 androidxComposeBom = "2025.10.01"
 jetbrains-compose = "1.9.2"
-compose-stability-analyzer = "0.4.0"
+compose-stability-analyzer = "0.4.2"
 spotless = "6.21.0"
 
 [libraries]
@@ -27,6 +28,7 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-compiler-embeddable = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
 kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "lintApi" }
 lint = { module = "com.android.tools.lint:lint", version.ref = "lintApi" }
@@ -39,6 +41,7 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-binary-compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlinBinaryCompatibility" }
 jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

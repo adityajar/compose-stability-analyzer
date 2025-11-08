@@ -5,6 +5,7 @@ public final class com/skydoves/compose/stability/compiler/ComposableStabilityCh
 }
 
 public final class com/skydoves/compose/stability/compiler/ComposableStabilityInfo {
+	public static final field Companion Lcom/skydoves/compose/stability/compiler/ComposableStabilityInfo$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZZLjava/lang/String;Ljava/util/List;)V
 	public final fun component1 ()Ljava/lang/String;
 	public final fun component2 ()Ljava/lang/String;
@@ -27,7 +28,23 @@ public final class com/skydoves/compose/stability/compiler/ComposableStabilityIn
 	public fun toString ()Ljava/lang/String;
 }
 
+public final synthetic class com/skydoves/compose/stability/compiler/ComposableStabilityInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/skydoves/compose/stability/compiler/ComposableStabilityInfo$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/skydoves/compose/stability/compiler/ComposableStabilityInfo;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/skydoves/compose/stability/compiler/ComposableStabilityInfo;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/skydoves/compose/stability/compiler/ComposableStabilityInfo$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
+}
+
 public final class com/skydoves/compose/stability/compiler/ParameterStabilityInfo {
+	public static final field Companion Lcom/skydoves/compose/stability/compiler/ParameterStabilityInfo$Companion;
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun component1 ()Ljava/lang/String;
@@ -43,6 +60,21 @@ public final class com/skydoves/compose/stability/compiler/ParameterStabilityInf
 	public final fun getType ()Ljava/lang/String;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/skydoves/compose/stability/compiler/ParameterStabilityInfo$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/skydoves/compose/stability/compiler/ParameterStabilityInfo$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/skydoves/compose/stability/compiler/ParameterStabilityInfo;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/skydoves/compose/stability/compiler/ParameterStabilityInfo;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/skydoves/compose/stability/compiler/ParameterStabilityInfo$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/skydoves/compose/stability/compiler/StabilityAnalyzerCommandLineProcessor : org/jetbrains/kotlin/compiler/plugin/CommandLineProcessor {
@@ -90,6 +122,33 @@ public final class com/skydoves/compose/stability/compiler/StabilityInfoCollecto
 	public fun <init> (Ljava/io/File;)V
 	public final fun export ()V
 	public final fun recordComposable (Lcom/skydoves/compose/stability/compiler/ComposableStabilityInfo;)V
+}
+
+public final class com/skydoves/compose/stability/compiler/StabilityReport {
+	public static final field Companion Lcom/skydoves/compose/stability/compiler/StabilityReport$Companion;
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lcom/skydoves/compose/stability/compiler/StabilityReport;
+	public static synthetic fun copy$default (Lcom/skydoves/compose/stability/compiler/StabilityReport;Ljava/util/List;ILjava/lang/Object;)Lcom/skydoves/compose/stability/compiler/StabilityReport;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getComposables ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final synthetic class com/skydoves/compose/stability/compiler/StabilityReport$$serializer : kotlinx/serialization/internal/GeneratedSerializer {
+	public static final field INSTANCE Lcom/skydoves/compose/stability/compiler/StabilityReport$$serializer;
+	public final fun childSerializers ()[Lkotlinx/serialization/KSerializer;
+	public final fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Lcom/skydoves/compose/stability/compiler/StabilityReport;
+	public synthetic fun deserialize (Lkotlinx/serialization/encoding/Decoder;)Ljava/lang/Object;
+	public final fun getDescriptor ()Lkotlinx/serialization/descriptors/SerialDescriptor;
+	public final fun serialize (Lkotlinx/serialization/encoding/Encoder;Lcom/skydoves/compose/stability/compiler/StabilityReport;)V
+	public synthetic fun serialize (Lkotlinx/serialization/encoding/Encoder;Ljava/lang/Object;)V
+	public fun typeParametersSerializers ()[Lkotlinx/serialization/KSerializer;
+}
+
+public final class com/skydoves/compose/stability/compiler/StabilityReport$Companion {
+	public final fun serializer ()Lkotlinx/serialization/KSerializer;
 }
 
 public final class com/skydoves/compose/stability/compiler/lower/RecompositionIrBuilder {
