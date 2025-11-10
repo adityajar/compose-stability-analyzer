@@ -69,6 +69,7 @@
         <!-- Inspection for unstable composables -->
         <localInspection
                 language="kotlin"
+                shortName="UnstableComposable"
                 displayName="Unstable Composable Function"
                 groupName="Compose"
                 enabledByDefault="true"

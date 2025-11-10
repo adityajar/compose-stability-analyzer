@@ -8,6 +8,11 @@ All notable changes to the IntelliJ IDEA plugin will be documented in this file.
 
 ## [0.5.0] - 2025-11-08
 
+### Breaking Changes
+- **Minimum IDE version updated**: Now requires IntelliJ IDEA 2024.2+ (build 242+)
+  - Previous minimum was 2023.2 (build 232)
+  - This aligns with modern K2 Analysis API requirements and ensures better stability
+
 ### Added
 - **New Compose Stability Tool Window** - View all composables in your project at a glance (Issue #14)
   - Tree view grouped by module -> package -> file
@@ -35,8 +40,15 @@ All notable changes to the IntelliJ IDEA plugin will be documented in this file.
 - **Performance optimization** - Tool window now reads pre-computed stability information from JSON files instead of re-analyzing all files
   - Significantly faster load times for large projects
   - Reduced CPU usage when opening the tool window
+- **Added IntelliJ Plugin Verifier integration**
+  - Automated compatibility testing across multiple IDE versions
+  - Prevents API compatibility issues before release
+  - Can be run locally with `./gradlew verifyPlugin`
 
 ### Fixed
+- **Fixed PluginException in IntelliJ IDEA 2025.2.4** (Issue #33)
+  - Added explicit `shortName` attribute to inspection registration in plugin.xml
+  - Resolved "Short name not matched" error that occurred due to stricter validation in newer IDE versions
 - Fixed double-click navigation to source code in tool window
 - Fixed typealias detection for Composable function types (Issue #16)
   - Typealiases like `typealias SettingsButtons = @Composable (PlayerUiState) -> Unit` now correctly expand to their underlying function types before stability analysis
@@ -44,6 +56,7 @@ All notable changes to the IntelliJ IDEA plugin will be documented in this file.
   - Added fallback type resolution by simple name for immutable collections when FQN resolution fails in test source sets
 - Improved cross-module stability detection by reading @StabilityInferred(parameters) annotation (Issue #18)
   - Classes from other modules now correctly marked as UNSTABLE unless annotated with @Stable/@Immutable or @StabilityInferred(parameters=0)
+- Extended plugin compatibility range to support IntelliJ IDEA 2025.3 (build 253)
 
 ---
 

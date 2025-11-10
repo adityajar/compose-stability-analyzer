@@ -41,6 +41,7 @@ dependencies {
     intellijIdeaCommunity("2025.2")
     bundledPlugin("org.jetbrains.kotlin")
     testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
+    pluginVerifier()
   }
 
   testImplementation(kotlin("test"))
@@ -53,8 +54,8 @@ intellijPlatform {
 
   pluginConfiguration {
     ideaVersion {
-      sinceBuild = "232"
-      untilBuild = "252.*"
+      sinceBuild = "242"
+      untilBuild = "253.*"
     }
 
     description = """
@@ -124,6 +125,13 @@ intellijPlatform {
             </ul>
         """.trimIndent()
 
+  }
+
+  pluginVerification {
+    ides {
+      // Verify compatibility with recommended IDE versions
+      recommended()
+    }
   }
 }
 
