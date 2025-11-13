@@ -35,7 +35,7 @@ import kotlin.concurrent.Volatile
  * }
  *
  * // In Application.onCreate()
- * LoggerProvider.setLogger(FirebaseRecompositionLogger())
+ * ComposeStabilityAnalyzer.setLogger(FirebaseRecompositionLogger())
  * ```
  */
 public interface RecompositionLogger {
@@ -110,13 +110,13 @@ public expect class DefaultRecompositionLogger() : RecompositionLogger {
  * Usage:
  * ```kotlin
  * // Set custom logger (typically in Application.onCreate() or MainActivity)
- * LoggerProvider.setLogger(MyCustomLogger())
+ * ComposeStabilityAnalyzer.setLogger(MyCustomLogger())
  *
  * // Enable/disable logging
- * LoggerProvider.setEnabled(BuildConfig.DEBUG)
+ * ComposeStabilityAnalyzer.setEnabled(BuildConfig.DEBUG)
  *
  * // Get current logger
- * val logger = LoggerProvider.getLogger()
+ * val logger = ComposeStabilityAnalyzer.getLogger()
  * ```
  */
 public object ComposeStabilityAnalyzer {
@@ -155,7 +155,7 @@ public object ComposeStabilityAnalyzer {
    *
    * Use this to disable logging in production builds:
    * ```kotlin
-   * LoggerProvider.setEnabled(BuildConfig.DEBUG)
+   * ComposeStabilityAnalyzer.setEnabled(BuildConfig.DEBUG)
    * ```
    *
    * @param enabled Whether logging should be enabled.
