@@ -23,7 +23,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class LoggerProviderTest {
+class ComposeStabilityAnalyzerTest {
 
   private val defaultLogger = DefaultRecompositionLogger()
 
@@ -40,13 +40,13 @@ class LoggerProviderTest {
   }
 
   @Test
-  fun testLoggerProvider_defaultLogger() {
+  fun testComposeStabilityAnalyzer_defaultLogger() {
     val logger = ComposeStabilityAnalyzer.getLogger()
     assertNotNull(logger)
   }
 
   @Test
-  fun testLoggerProvider_setCustomLogger() {
+  fun testComposeStabilityAnalyzer_setCustomLogger() {
     val customLogger = TestLogger()
     ComposeStabilityAnalyzer.setLogger(customLogger)
 
@@ -55,12 +55,12 @@ class LoggerProviderTest {
   }
 
   @Test
-  fun testLoggerProvider_enabledByDefault() {
+  fun testComposeStabilityAnalyzer_enabledByDefault() {
     assertTrue(ComposeStabilityAnalyzer.isEnabled())
   }
 
   @Test
-  fun testLoggerProvider_setEnabled() {
+  fun testComposeStabilityAnalyzer_setEnabled() {
     ComposeStabilityAnalyzer.setEnabled(false)
     assertFalse(ComposeStabilityAnalyzer.isEnabled())
 
@@ -69,7 +69,7 @@ class LoggerProviderTest {
   }
 
   @Test
-  fun testLoggerProvider_logEvent_whenEnabled() {
+  fun testComposeStabilityAnalyzer_logEvent_whenEnabled() {
     val customLogger = TestLogger()
     ComposeStabilityAnalyzer.setLogger(customLogger)
     ComposeStabilityAnalyzer.setEnabled(true)
@@ -82,7 +82,7 @@ class LoggerProviderTest {
   }
 
   @Test
-  fun testLoggerProvider_logEvent_whenDisabled() {
+  fun testComposeStabilityAnalyzer_logEvent_whenDisabled() {
     val customLogger = TestLogger()
     ComposeStabilityAnalyzer.setLogger(customLogger)
     ComposeStabilityAnalyzer.setEnabled(false)
@@ -94,7 +94,7 @@ class LoggerProviderTest {
   }
 
   @Test
-  fun testLoggerProvider_multipleEvents() {
+  fun testComposeStabilityAnalyzer_multipleEvents() {
     val customLogger = TestLogger()
     ComposeStabilityAnalyzer.setLogger(customLogger)
     ComposeStabilityAnalyzer.setEnabled(true)
@@ -114,7 +114,7 @@ class LoggerProviderTest {
   }
 
   @Test
-  fun testLoggerProvider_changeLogger_midStream() {
+  fun testComposeStabilityAnalyzer_changeLogger_midStream() {
     val logger1 = TestLogger()
     val logger2 = TestLogger()
 
@@ -132,7 +132,7 @@ class LoggerProviderTest {
   }
 
   @Test
-  fun testLoggerProvider_toggleEnabled() {
+  fun testComposeStabilityAnalyzer_toggleEnabled() {
     val customLogger = TestLogger()
     ComposeStabilityAnalyzer.setLogger(customLogger)
 

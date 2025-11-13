@@ -1,26 +1,27 @@
-# Keep all classes and functions annotated with @TraceRecomposition
-# These are transformed by the compiler plugin and must not be obfuscated
--keep @com.skydoves.compose.stability.runtime.TraceRecomposition class * { *; }
--keep class * {
-    @com.skydoves.compose.stability.runtime.TraceRecomposition *;
-}
--keepclassmembers class * {
-    @com.skydoves.compose.stability.runtime.TraceRecomposition *;
-}
-
-# Keep the TraceRecomposition annotation itself
+# Keep annotations (used at compile-time, small overhead to keep)
 -keep @interface com.skydoves.compose.stability.runtime.TraceRecomposition
-
-# Keep all stability runtime annotations
 -keep @interface com.skydoves.compose.stability.runtime.StableForAnalysis
--keep @interface com.skydoves.compose.stability.runtime.SkipStabilityAnalysis
 -keep @interface com.skydoves.compose.stability.runtime.IgnoreStabilityReport
 
-# Keep RecompositionTracker and related classes used by injected code
--keep class com.skydoves.compose.stability.runtime.RecompositionTracker { *; }
--keep class com.skydoves.compose.stability.runtime.** { *; }
+# Keep ONLY RecompositionTracker - used by compiler-injected code
+# The compiler injects calls to: constructor, trackParameter(), logIfThresholdMet()
+-keep class com.skydoves.compose.stability.runtime.RecompositionTracker {
+    public <init>(java.lang.String, java.lang.String, int);
+    public <methods>;
+}
 
-# Keep all stability info data classes
--keep class com.skydoves.compose.stability.runtime.StabilityInfo { *; }
--keep class com.skydoves.compose.stability.runtime.ComposableInfo { *; }
--keep class com.skydoves.compose.stability.runtime.ParameterInfo { *; }
+# Keep public API for users who explicitly call ComposeStabilityAnalyzer.setLogger()
+# ComposeStabilityAnalyzer is a Kotlin object (singleton), methods are accessed via INSTANCE
+# These are only kept if referenced (R8 will remove if unused)
+-keep,allowobfuscation class com.skydoves.compose.stability.runtime.ComposeStabilityAnalyzer {
+    public <methods>;
+}
+-keep,allowobfuscation interface com.skydoves.compose.stability.runtime.RecompositionLogger {
+    public <methods>;
+}
+-keep,allowobfuscation class com.skydoves.compose.stability.runtime.RecompositionEvent { *; }
+-keep,allowobfuscation class com.skydoves.compose.stability.runtime.ParameterChange { *; }
+
+# Note: StabilityInfo/ComposableInfo/ParameterInfo are only used for JSON generation
+# at compile-time. They don't need to be kept in the runtime APK.
+# R8 will automatically remove them if unused.

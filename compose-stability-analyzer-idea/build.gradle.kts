@@ -71,6 +71,12 @@ intellijPlatform {
             </ul>
         """.trimIndent()
     changeNotes = """
+            <b>0.5.2</b>
+            <ul>
+                <li><b>CRITICAL FIX: Resolved APK size bloat in release builds</b> (Issue #39)</li>
+                <li>ProGuard rules optimized - only keeps classes actually used by compiler-injected code</li>
+                <li>Dramatically reduced release APK size when using the plugin</li>
+            </ul>
             <b>0.5.1</b>
             <ul>
                 <li><b>Added wasmJs target support</b> - Runtime module now supports WebAssembly JavaScript for Compose Multiplatform web apps (Issue #32)</li>

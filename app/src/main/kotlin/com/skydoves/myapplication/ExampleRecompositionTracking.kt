@@ -43,7 +43,7 @@ import com.skydoves.myapplication.models.UnstableUser
  * 1. Add @TraceRecomposition annotation to your composable
  * 2. Build the project (tracking code is automatically injected by the compiler)
  * 3. Enable logging in your Application class:
- *    LoggerProvider.setEnabled(BuildConfig.DEBUG)
+ *    ComposeStabilityAnalyzer.setEnabled(BuildConfig.DEBUG)
  * 4. Run your app and check Logcat for "Recomposition" tag
  */
 @Composable
@@ -252,7 +252,7 @@ fun RecompositionDemo() {
  *    class MyApp : Application() {
  *        override fun onCreate() {
  *            super.onCreate()
- *            LoggerProvider.setEnabled(BuildConfig.DEBUG)
+ *            ComposeStabilityAnalyzer.setEnabled(BuildConfig.DEBUG)
  *        }
  *    }
  *    ```

@@ -6,6 +6,19 @@ All notable changes to the IntelliJ IDEA plugin will be documented in this file.
 
 ---
 
+## [0.5.2] - 2025-11-13
+
+### Fixed
+- **Critical: Fixed APK size bloat in release builds** (Issue #39)
+  - ProGuard rules were keeping entire stability-runtime package unnecessarily
+  - Optimized consumer-rules.pro to only keep classes used by compiler-injected code
+  - Now only keeps `RecompositionTracker` methods (constructor, trackParameter, logIfThresholdMet)
+  - Logger classes only kept if explicitly used via `ComposeStabilityAnalyzer.setLogger()`
+  - Compile-time classes (`StabilityInfo`, `ComposableInfo`, `ParameterInfo`) now removed by R8
+  - This fix dramatically reduces release APK size when using the plugin
+
+---
+
 ## [0.5.1] - 2025-11-10
 
 ### Added
