@@ -136,17 +136,24 @@ This is incredibly useful for:
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.skydoves/compose-stability-runtime.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.skydoves%22%20AND%20a:%compose-stability-runtime%22)
 
-Add the dependency below to your `libs.versions.toml` file:
+First, add the plugin to the `[plugins]` section of your `libs.versions.toml` file:
 
 ```toml
 stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version = "0.5.2" }
 ```
 
-Next, apply the plugin on your root's `build.gradle.kts` file like below:
+Then, apply it to your root `build.gradle.kts` with `apply false`:
+
+```kotlin
+alias(libs.plugins.stability.analyzer) apply false
+```
+
+Finally, apply the plugin to your app or shared module's `build.gradle.kts`:
 
 ```kotlin
 alias(libs.plugins.stability.analyzer)
 ```
+Sync your project to complete the setup.
 
 ### Kotlin Version Mapping
 
