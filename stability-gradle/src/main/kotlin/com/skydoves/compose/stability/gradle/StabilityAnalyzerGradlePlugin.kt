@@ -173,7 +173,7 @@ public class StabilityAnalyzerGradlePlugin : KotlinCompilerPluginSupportPlugin {
       val runtimeDependency = runtimeProject
         ?: "$GROUP_ID:$RUNTIME_ARTIFACT_ID:$VERSION"
 
-      // Add runtime to all compiler plugin classpath configurations (not general compiler classpath)
+      // Add runtime to all compiler plugin classpath configurations
       project.configurations.configureEach {
         if (name.contains("CompilerPluginClasspath", ignoreCase = true)) {
           project.dependencies.add(name, runtimeDependency)

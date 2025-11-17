@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.gradle.jvm.tasks.Jar
+
 plugins {
   kotlin("jvm")
   alias(libs.plugins.kotlin.serialization)
+  alias(libs.plugins.shadow)
   alias(libs.plugins.nexus.plugin)
 }
 
@@ -47,4 +51,32 @@ dependencies {
 java {
   sourceCompatibility = JavaVersion.VERSION_11
   targetCompatibility = JavaVersion.VERSION_11
+}
+
+tasks.shadowJar {
+  archiveClassifier.set("all")
+  configurations = listOf(project.configurations.runtimeClasspath.get())
+
+  // Don't relocate - K/Native compiler needs original package names
+  // for example, relocate("kotlinx.serialization", "...")
+
+  exclude("META-INF/maven/**")
+  exclude("META-INF/*.SF")
+  exclude("META-INF/*.DSA")
+  exclude("META-INF/*.RSA")
+}
+
+// Make jar task produce the shadowJar content
+tasks.named<Jar>("jar") {
+  dependsOn(tasks.shadowJar)
+  doLast {
+    val shadowTask = tasks.shadowJar.get()
+    val shadowJarFile = shadowTask.archiveFile.get().asFile
+    val jarFile = archiveFile.get().asFile
+
+    if (shadowJarFile.exists()) {
+      shadowJarFile.copyTo(jarFile, overwrite = true)
+      logger.lifecycle("Replaced ${jarFile.name} with shadowJar content")
+    }
+  }
 }
