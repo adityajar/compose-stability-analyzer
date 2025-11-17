@@ -56,16 +56,13 @@ java {
 
 // Configure shadowJar to embed kotlinx.serialization
 tasks.shadowJar {
-  archiveClassifier.set("all")  // Use a classifier to avoid conflict with jar task
-
+  archiveClassifier.set("all")
   // Merge all runtime dependencies (including kotlinx-serialization)
-  // By default, shadow excludes nothing, so we need to explicitly configure
   configurations = listOf(project.configurations.runtimeClasspath.get())
 
   // Don't relocate - K/Native compiler needs original package names
-  // relocate("kotlinx.serialization", "...")
+  // for example, relocate("kotlinx.serialization", "...")
 
-  // Exclude unnecessary files
   exclude("META-INF/maven/**")
   exclude("META-INF/*.SF")
   exclude("META-INF/*.DSA")
@@ -75,7 +72,6 @@ tasks.shadowJar {
 // Make jar task produce the shadowJar content
 tasks.named<Jar>("jar") {
   dependsOn(tasks.shadowJar)
-  // Copy shadowJar content after jar is built
   doLast {
     val shadowTask = tasks.shadowJar.get()
     val shadowJarFile = shadowTask.archiveFile.get().asFile

@@ -174,7 +174,6 @@ public class StabilityAnalyzerGradlePlugin : KotlinCompilerPluginSupportPlugin {
         ?: "$GROUP_ID:$RUNTIME_ARTIFACT_ID:$VERSION"
 
       // Add runtime to all compiler plugin classpath configurations
-      // Note: kotlinx.serialization is now embedded in the compiler JAR via shadow plugin
       project.configurations.configureEach {
         if (name.contains("CompilerPluginClasspath", ignoreCase = true)) {
           project.dependencies.add(name, runtimeDependency)
