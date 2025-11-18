@@ -6,6 +6,21 @@ All notable changes to the IntelliJ IDEA plugin will be documented in this file.
 
 ---
 
+## [0.5.3] - 2025-11-18
+
+### Fixed
+- **Fixed iOS native compilation with kotlinx.serialization** (Issue #48)
+  - Compiler plugin now properly bundles kotlinx.serialization dependencies for Kotlin/Native targets
+  - Resolves `NoClassDefFoundError: kotlinx/serialization/KSerializer` during iOS compilation
+  - Enables Kotlin Multiplatform projects using iOS, macOS, and other native targets to compile successfully
+  - kotlinx-serialization classes are now embedded directly in the compiler plugin JAR
+- **Fixed Gradle Configuration Cache compatibility** (Issue #41)
+  - StabilityDumpTask and StabilityCheckTask now properly capture project name at configuration time
+  - Tasks no longer access `Task.project` during execution, preventing "unsupported at execution time" errors
+  - Gradle builds with `--configuration-cache` flag now work correctly
+
+---
+
 ## [0.5.2] - 2025-11-13
 
 ### Fixed
