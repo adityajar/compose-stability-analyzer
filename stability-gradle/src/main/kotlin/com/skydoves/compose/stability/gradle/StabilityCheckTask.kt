@@ -62,6 +62,12 @@ public abstract class StabilityCheckTask : DefaultTask() {
   @get:Input
   public abstract val projectName: Property<String>
 
+  /**
+   * Whether to fail the build when stability changes are detected.
+   */
+  @get:Input
+  public abstract val failOnStabilityChange: Property<Boolean>
+
   init {
     group = "verification"
     description = "Check composable stability against reference file"
@@ -110,8 +116,6 @@ public abstract class StabilityCheckTask : DefaultTask() {
 
     if (differences.isNotEmpty()) {
       val message = buildString {
-        appendLine("❌ Stability check failed!")
-        appendLine()
         appendLine("The following composables have changed stability:")
         appendLine()
         differences.forEach { diff ->
@@ -123,10 +127,16 @@ public abstract class StabilityCheckTask : DefaultTask() {
             "to update the stability file.",
         )
       }
-      throw GradleException(message)
-    }
 
-    logger.lifecycle("✅ Stability check passed.")
+      if (failOnStabilityChange.get()) {
+        throw GradleException("❌ Stability check failed!\n\n$message")
+      } else {
+        logger.warn("⚠️  Stability changes detected:\n\n$message")
+        logger.lifecycle("✓ Stability check completed with warnings (failOnStabilityChange=false)")
+      }
+    } else {
+      logger.lifecycle("✅ Stability check passed.")
+    }
   }
 
   private fun parseStabilityFromCompiler(

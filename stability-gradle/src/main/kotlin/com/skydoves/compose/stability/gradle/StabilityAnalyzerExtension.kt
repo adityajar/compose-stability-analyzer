@@ -132,4 +132,12 @@ public abstract class StabilityValidationConfig @Inject constructor(
    */
   public val ignoredClasses: ListProperty<String> =
     objects.listProperty(String::class.java).convention(emptyList())
+
+  /**
+   * Whether to fail the build when stability changes are detected.
+   * When false, stability changes will be logged as warnings instead.
+   * Default: true
+   */
+  public val failOnStabilityChange: Property<Boolean> =
+    objects.property(Boolean::class.javaObjectType).convention(true)
 }
