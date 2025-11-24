@@ -129,7 +129,10 @@ public class StabilitySettingsConfigurable(
         row("Runtime color:") {
           runtimeGutterColorPanel = ColorPanel()
           cell(runtimeGutterColorPanel)
-            .comment("Color for runtime-determined stability (currently not used)")
+            .comment(
+              "Color for composables with only runtime parameters. " +
+                "Stability is determined at runtime and may vary between library versions.",
+            )
         }
       }
 
