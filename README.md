@@ -754,6 +754,42 @@ composeStabilityAnalyzer {
 
         // Exclude specific sub-projects/modules (useful for multi-module projects)
         ignoredProjects.set(listOf("benchmarks", "examples", "samples"))
+
+        // Control build failure behavior on stability changes (default: true)
+        failOnStabilityChange.set(true)
+    }
+}
+```
+
+#### `failOnStabilityChange` Option
+
+By default, `stabilityCheck` will **fail the build** when stability changes are detected. This is ideal for CI/CD pipelines where you want to prevent stability regressions from being merged.
+
+However, in some scenarios you may want to **log warnings instead of failing**:
+
+```kotlin
+composeStabilityAnalyzer {
+    stabilityValidation {
+        // Log stability changes as warnings instead of failing the build
+        failOnStabilityChange.set(false)
+    }
+}
+```
+
+**When to use `failOnStabilityChange.set(false)`:**
+
+- **Initial adoption**: When first adding stability validation to an existing project, you may want to see all stability issues without blocking builds.
+- **Gradual migration**: Allow the team to fix stability issues incrementally while still tracking them.
+- **Development branches**: Use warnings during development, but enable strict mode for `main` branch.
+- **Monitoring only**: Track stability trends without enforcing them as build requirements.
+
+**Example: Different behavior per environment**
+
+```kotlin
+composeStabilityAnalyzer {
+    stabilityValidation {
+        // Fail on CI, warn locally
+        failOnStabilityChange.set(System.getenv("CI") == "true")
     }
 }
 ```
