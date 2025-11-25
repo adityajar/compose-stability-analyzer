@@ -18,6 +18,8 @@ Compose Stability Analyzer provides real-time analysis of your Jetpack Compose c
 
 Additionally, you can trace the reason of your composable function is triggered recomposition with a `TraceRecomposition` annotation, and export stability compatibility reports using Gradle tasks for reviewing the new stability changes.
 
+You can change the colors used for stability indicators to match your IDE theme, enabling Strong Skipping mode for analyzing, visual indicators (showing gutter icons, warnings, inline hints), change parameter hint colors, enabling analysis in test source sets, set a stability configuration file, add ignored type patterns to exclude from the stability analysis.
+
 ## 💝 Sponsors
 
 The sponsors listed below made it possible for this project to be released as open source. Many thanks to all of them for their support!
@@ -113,10 +115,39 @@ You can change the colors used for stability indicators to match your IDE theme,
 
 You can change the configuration on the way below:
 
-**Settings → Tools → Compose Stability Analyzer → Colors**
+**Settings → Tools → Compose Stability Analyzer**
 
 ![preview](art/preview4.png)
 ![preview](art/preview5.png)
+
+#### Stability Configuration File
+
+The Compose Stability Analyzer allows you to mark your own custom types as stable, even if they don't have `@Stable` or `@Immutable` annotations. This is useful when:
+
+- You have immutable data classes from third-party libraries that aren't annotated
+- You're using code generation tools that produce stable types
+- You want to treat certain types as stable without modifying their source code
+- You have legacy code that you know is stable but can't easily refactor
+
+**Setting up the configuration file:**
+
+**Global settings (applies to all projects):**
+
+1. Create your configuration file anywhere on your system
+2. Go to **Settings → Tools → Compose Stability Analyzer**
+3. Scroll to "Ignored Type Patterns" and add your patterns directly
+4. Or reference a file path in the "Stability configuration file" field (global)
+
+**Per-project settings (recommended for teams):**
+
+1. Create a configuration file in your project (e.g., `config/stability-config.txt`)
+2. Go to **Settings → Tools → Compose Stability Analyzer → Project Configuration**
+3. Set the path to your configuration file
+4. Commit the file to version control so your team shares the same configuration
+
+**Per-project settings take precedence** over global settings. This means you can have:
+- Global settings for your personal preferences
+- Project-specific settings that your entire team uses
 
 ## Gradle Plugin for Tracking Runtime Recomposition and Stability Validation
 
