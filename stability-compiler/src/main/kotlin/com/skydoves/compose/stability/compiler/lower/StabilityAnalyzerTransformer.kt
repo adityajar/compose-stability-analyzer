@@ -61,8 +61,29 @@ public class StabilityAnalyzerTransformer(
   private val analyzingTypes = ThreadLocal.withInitial { mutableSetOf<String>() }
 
   override fun visitFunctionNew(declaration: IrFunction): IrStatement {
-    val functionName = declaration.name.asString()
-    val fqName = declaration.kotlinFqName.asString()
+    // Handle property getters - extract actual property name
+    // Property getters have names like "<get-propertyName>"
+    val rawFunctionName = declaration.name.asString()
+    val rawFqName = declaration.kotlinFqName.asString()
+
+    val nameAndFqn = if (rawFunctionName.startsWith("<get-") && rawFunctionName.endsWith(">")) {
+      // This is a property getter - extract property name
+      val propertyName = rawFunctionName.substring(5, rawFunctionName.length - 1)
+
+      // Build proper FQN by replacing <get-xxx> with property name
+      val propertyFqName = if (rawFqName.contains("<get-")) {
+        rawFqName.replace(Regex("<get-([^>]+)>"), "$1")
+      } else {
+        rawFqName
+      }
+
+      Pair(propertyName, propertyFqName)
+    } else {
+      Pair(rawFunctionName, rawFqName)
+    }
+
+    val functionName = nameAndFqn.first
+    val fqName = nameAndFqn.second
 
     // Check if function has @TraceRecomposition annotation
     val hasTraceRecomposition = declaration.hasAnnotation(traceRecompositionFqName)
