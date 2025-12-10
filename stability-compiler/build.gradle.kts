@@ -20,7 +20,7 @@ plugins {
   kotlin("jvm")
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.shadow)
-  alias(libs.plugins.nexus.plugin)
+  `maven-publish`
 }
 
 kotlin {
@@ -49,8 +49,16 @@ dependencies {
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_11
-  targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+}
+
+publishing {
+publications {
+  create<MavenPublication>("maven") {
+    from(components["java"])
+  }
+}
 }
 
 tasks.shadowJar {

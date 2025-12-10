@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     alias(libs.plugins.kotlin.jvm)
     `kotlin-dsl`
-    alias(libs.plugins.nexus.plugin)
+    `maven-publish`
 }
 
 group = project.property("GROUP") as String

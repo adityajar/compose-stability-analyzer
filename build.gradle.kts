@@ -11,7 +11,6 @@ plugins {
   alias(libs.plugins.jetbrains.compose) apply false
   alias(libs.plugins.compose.stability.analyzer) apply false
   alias(libs.plugins.kotlin.binary.compatibility)
-  alias(libs.plugins.nexus.plugin) apply false
   alias(libs.plugins.spotless)
   alias(libs.plugins.dokka)
 }
@@ -57,8 +56,8 @@ subprojects {
   apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
 
   // Configure publishing to GitHub Packages
-  plugins.withId("com.vanniktech.maven.publish") {
-    configure<com.vanniktech.maven.publish.MavenPublishBaseExtension> {
+  plugins.withId("maven-publish") {
+    configure<PublishingExtension> {
       repositories {
         maven {
           name = "GitHubPackages"

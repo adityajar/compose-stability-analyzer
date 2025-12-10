@@ -15,7 +15,7 @@
  */
 plugins {
   kotlin("jvm")
-  alias(libs.plugins.nexus.plugin)
+  `maven-publish`
 }
 
 kotlin {
@@ -54,5 +54,13 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 tasks.jar {
   manifest {
     attributes("Lint-Registry-v2" to "com.skydoves.compose.stability.lint.StabilityIssueRegistry")
+  }
+}
+
+publishing {
+  publications {
+    create<MavenPublication>("maven") {
+      from(components["java"])
+    }
   }
 }
