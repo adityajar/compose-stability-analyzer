@@ -22,7 +22,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         
       - name: Publish to GitHub Packages
-        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository -PRELEASE_SIGNING_ENABLED=false
+        run: ./gradlew publish -PRELEASE_SIGNING_ENABLED=false
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
