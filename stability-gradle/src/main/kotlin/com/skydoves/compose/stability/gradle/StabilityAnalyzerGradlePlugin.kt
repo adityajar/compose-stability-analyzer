@@ -39,7 +39,7 @@ public class StabilityAnalyzerGradlePlugin : KotlinCompilerPluginSupportPlugin {
     private const val MULTIPLATFORM_PLUGIN_ID = "org.jetbrains.kotlin.multiplatform"
 
     // Artifact coordinates
-    private const val GROUP_ID = "com.github.skydoves"
+    private const val GROUP_ID = "io.github.adityajar"
     private const val COMPILER_ARTIFACT_ID = "compose-stability-compiler"
     private const val RUNTIME_ARTIFACT_ID = "compose-stability-runtime"
 
