@@ -32,8 +32,8 @@ object ClasspathBasedStandardLibrariesPathProvider : KotlinStandardLibrariesPath
       .dropLastWhile(String::isEmpty)
       .map(::File)
       .associateBy { file ->
-        // Extract the artifact name from filenames like "kotlin-stdlib-2.2.21.jar"
-        // or "kotlin-stdlib-jdk8-2.2.21.jar"
+        // Extract the artifact name from filenames like "kotlin-stdlib-2.1.21.jar"
+        // or "kotlin-stdlib-jdk8-2.1.21.jar"
         val name = file.name
         when {
           name.matches("""kotlin-stdlib-jdk8-[\d.]+\.jar""".toRegex()) -> "kotlin-stdlib-jdk8"

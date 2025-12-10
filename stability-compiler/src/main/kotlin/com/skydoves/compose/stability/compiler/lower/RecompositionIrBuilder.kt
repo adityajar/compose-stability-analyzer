@@ -248,14 +248,14 @@ public class RecompositionIrBuilder(
 
     val call = builder.irCall(trackParameterSymbol)
 
-    // In Kotlin 2.2.21+, arguments list includes receivers + value parameters
-    call.arguments[0] = builder.irGet(trackerVariable) // dispatch receiver
-    call.arguments[1] = builder.irString(paramData.name) // name: String
-    call.arguments[2] = builder.irString(paramData.typeString) // type: String
-    call.arguments[3] = builder.irGet(paramData.parameter) // value: Any?
+    // In Kotlin 2.1.21, dispatch receiver is separate
+    call.dispatchReceiver = builder.irGet(trackerVariable)
+    call.putValueArgument(0, builder.irString(paramData.name)) // name: String
+    call.putValueArgument(1, builder.irString(paramData.typeString)) // type: String
+    call.putValueArgument(2, builder.irGet(paramData.parameter)) // value: Any?
 
     val isStable = paramData.stability == ParameterStability.STABLE
-    call.arguments[4] = builder.irBoolean(isStable) // isStable: Boolean
+    call.putValueArgument(3, builder.irBoolean(isStable)) // isStable: Boolean
 
     return call
   }
@@ -271,8 +271,8 @@ public class RecompositionIrBuilder(
       ?: error("logIfThresholdMet function symbol not initialized")
 
     val call = builder.irCall(logSymbol)
-    // In Kotlin 2.2.21+, dispatch receiver goes in arguments[0]
-    call.arguments[0] = builder.irGet(trackerVariable)
+    // In Kotlin 2.1.21, dispatch receiver is separate
+    call.dispatchReceiver = builder.irGet(trackerVariable)
     return call
   }
 

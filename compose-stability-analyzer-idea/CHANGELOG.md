@@ -244,7 +244,7 @@ All notable changes to the IntelliJ IDEA plugin will be documented in this file.
 - Code formatting improvements across the codebase
 
 ### Fixed
-- Fixed compiler test compatibility issues with Kotlin 2.2.21
+- Fixed compiler test compatibility issues with Kotlin 2.1.21
 
 ---
 

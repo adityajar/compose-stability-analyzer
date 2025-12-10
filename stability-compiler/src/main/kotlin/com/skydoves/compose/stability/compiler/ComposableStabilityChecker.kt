@@ -37,9 +37,8 @@ public object ComposableStabilityChecker : FirSimpleFunctionChecker(MppCheckerKi
     Name.identifier("Composable"),
   )
 
-  context(ctx: CheckerContext, _: DiagnosticReporter)
-  override fun check(declaration: FirSimpleFunction) {
-    if (declaration.symbol.getAnnotationByClassId(COMPOSABLE_FQ_NAME, ctx.session) == null) {
+  override fun check(declaration: FirSimpleFunction, context: CheckerContext, reporter: DiagnosticReporter) {
+    if (declaration.symbol.getAnnotationByClassId(COMPOSABLE_FQ_NAME, context.session) == null) {
       return
     }
 

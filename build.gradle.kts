@@ -51,6 +51,23 @@ subprojects {
 
   apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
 
+  // Configure publishing to GitHub Packages
+  plugins.withId("com.vanniktech.maven.publish") {
+    configure<com.vanniktech.maven.publish.MavenPublishBaseExtension> {
+      publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+      repositories {
+        maven {
+          name = "GitHubPackages"
+          url = uri("https://maven.pkg.github.com/adityajar/compose-stability-analyzer")
+          credentials {
+            username = System.getenv("GITHUB_ACTOR") ?: project.findProperty("gpr.user") as String?
+            password = System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr.key") as String?
+          }
+        }
+      }
+    }
+  }
+
   configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
       target("**/*.kt")
