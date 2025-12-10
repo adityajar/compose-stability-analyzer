@@ -21,6 +21,11 @@ apiValidation {
 }
 
 subprojects {
+  repositories {
+    google()
+    mavenCentral()
+  }
+
   tasks.withType<KotlinCompile>().all {
     compilerOptions.freeCompilerArgs.addAll(
       listOf(
