@@ -54,7 +54,6 @@ subprojects {
   // Configure publishing to GitHub Packages
   plugins.withId("com.vanniktech.maven.publish") {
     configure<com.vanniktech.maven.publish.MavenPublishBaseExtension> {
-      publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
       repositories {
         maven {
           name = "GitHubPackages"
